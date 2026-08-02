@@ -1,0 +1,161 @@
+{% extends "blog_app/base.html" %}
+
+
+
+
+
+{% block title %}
+Password Changed | MyBlog
+{% endblock %}
+
+
+
+
+
+
+{% block css %}
+
+<style>
+
+
+/* ================= PASSWORD SUCCESS PAGE ================= */
+
+
+.success-container {
+
+
+    max-width:500px;
+    margin:70px auto;
+    background:white;
+    padding:40px;
+    border-radius:12px;
+    text-align:center;
+    box-shadow:0 5px 20px rgba(0,0,0,0.08);
+
+
+}
+
+
+
+
+
+.success-container h2 {
+
+
+    color:#16a34a;
+    font-size:30px;
+    margin-bottom:20px;
+
+
+}
+
+
+
+
+
+.success-container p {
+
+
+    color:#4b5563;
+    font-size:17px;
+    margin-bottom:30px;
+
+
+}
+
+
+
+
+
+.login-link {
+
+
+    display:inline-block;
+    background:#2563eb;
+    color:white;
+    text-decoration:none;
+    padding:12px 30px;
+    border-radius:8px;
+    font-weight:600;
+    transition:0.3s;
+
+
+}
+
+
+
+
+
+.login-link:hover {
+
+
+    background:#1d4ed8;
+
+
+}
+
+
+
+</style>
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+{% block content %}
+
+
+
+
+
+<div class="success-container">
+
+
+
+
+
+    <h2>
+
+        Password Changed Successfully
+
+    </h2>
+
+
+
+
+
+
+    <p>
+
+        Your password has been updated successfully.
+
+    </p>
+
+
+
+
+
+
+    <a href="{% url 'login' %}" class="login-link">
+
+        Login
+
+    </a>
+
+
+
+
+
+</div>
+
+
+
+
+
+{% endblock %}

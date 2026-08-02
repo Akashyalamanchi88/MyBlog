@@ -1,0 +1,780 @@
+{% extends "blog_app/base.html" %}
+
+
+{% block title %}
+Home | MyBlog
+{% endblock %}
+
+
+
+{% block css %}
+
+<style>
+
+
+/* HOME HEADER */
+
+.home-header {
+
+    text-align:center;
+    margin:40px 0;
+
+}
+
+
+.home-header h1 {
+
+    color:#2563eb;
+    font-size:38px;
+    margin-bottom:20px;
+
+}
+
+
+
+/* SEARCH */
+
+.search-box {
+
+    background:white;
+    padding:20px;
+    border-radius:12px;
+    margin-bottom:30px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.08);
+
+}
+
+
+
+.search-box input {
+
+    width:80%;
+    padding:12px;
+
+    border:1px solid #ddd;
+
+    border-radius:8px;
+
+}
+
+
+
+.search-btn {
+
+    padding:12px 25px;
+
+    background:#2563eb;
+
+    color:white;
+
+    border:none;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+}
+
+
+
+
+
+/* BLOG CARD */
+
+.blog-card {
+
+    background:white;
+
+    padding:20px;
+
+    border-radius:12px;
+
+    margin-bottom:30px;
+
+    box-shadow:0 5px 20px rgba(0,0,0,0.08);
+
+}
+
+
+
+
+.blog-card h2 {
+
+    margin-bottom:15px;
+
+}
+
+
+
+.blog-card h2 a {
+
+    color:#2563eb;
+
+    text-decoration:none;
+
+}
+
+
+
+
+/* IMAGE */
+
+
+.blog-image {
+
+    width:100%;
+
+    max-width:100%;
+
+    height:auto;
+
+    object-fit:contain;
+
+    border-radius:10px;
+
+    margin:15px 0 20px 0;
+
+    display:block;
+
+}
+
+
+
+
+
+/* CONTENT */
+
+
+.blog-content {
+
+
+    color:#4b5563;
+
+    line-height:1.7;
+
+    margin-bottom:15px;
+
+
+}
+
+
+
+
+
+/* LIKE COMMENT */
+
+
+.like-section {
+
+
+    margin-top:20px;
+
+    padding-top:15px;
+
+    border-top:1px solid #ddd;
+
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    flex-wrap:wrap;
+
+
+}
+
+
+
+
+.like-btn {
+
+
+    background:#2563eb;
+
+    color:white;
+
+
+    border:none;
+
+
+    padding:8px 18px;
+
+
+    border-radius:8px;
+
+
+    cursor:pointer;
+
+
+    font-weight:600;
+
+
+    text-decoration:none;
+
+
+}
+
+
+
+
+.like-btn:hover {
+
+
+    background:#1d4ed8;
+
+
+}
+
+
+
+
+.like-count {
+
+
+    font-weight:600;
+
+    color:#374151;
+
+
+}
+
+
+
+
+
+.comment-btn {
+
+
+    background:#16a34a;
+
+
+    color:white;
+
+
+    padding:8px 18px;
+
+
+    border-radius:8px;
+
+
+    text-decoration:none;
+
+
+    font-weight:600;
+
+
+}
+
+
+
+
+.comment-btn:hover {
+
+
+    background:#15803d;
+
+
+}
+
+
+
+
+
+/* EDIT DELETE */
+
+
+.action-links {
+
+
+    margin-top:20px;
+
+
+}
+
+
+
+.action-links a {
+
+
+    color:#2563eb;
+
+    text-decoration:none;
+
+    font-weight:600;
+
+
+}
+
+
+
+.delete-link {
+
+
+    color:#dc2626 !important;
+
+
+}
+
+
+
+
+
+/* PAGINATION */
+
+
+.pagination {
+
+
+    text-align:center;
+
+    margin:40px 0;
+
+
+}
+
+
+
+.pagination a {
+
+
+    background:#2563eb;
+
+
+    color:white;
+
+
+    padding:8px 16px;
+
+
+    margin:5px;
+
+
+    border-radius:6px;
+
+
+    text-decoration:none;
+
+
+}
+
+
+
+</style>
+
+
+{% endblock %}
+
+
+
+
+
+
+
+{% block content %}
+
+
+
+<div class="home-header">
+
+
+<h1>
+
+Explore New Stories
+
+</h1>
+
+
+</div>
+
+
+
+
+
+<!-- SEARCH -->
+
+
+<div class="search-box">
+
+
+<form method="GET">
+
+
+<input
+
+type="text"
+
+name="q"
+
+placeholder="Search blog..."
+
+value="{{ query|default:'' }}"
+
+>
+
+
+<button class="search-btn">
+
+Search
+
+</button>
+
+
+</form>
+
+
+</div>
+
+
+
+
+
+
+<!-- POSTS -->
+
+
+{% for post in page_obj %}
+
+
+
+<div class="blog-card">
+
+
+
+
+
+<h2>
+
+<a href="{% url 'post_detail' post.id %}">
+
+
+{% if post.title %}
+
+{{ post.title }}
+
+{% else %}
+
+Untitled Post
+
+{% endif %}
+
+
+</a>
+
+</h2>
+
+
+
+
+
+
+
+{% if post.image %}
+
+
+<img src="{{ post.image.url }}" class="blog-image">
+
+
+{% endif %}
+
+
+
+
+
+
+<p class="blog-content">
+
+{% if user.is_authenticated %}
+
+    {% if post.content %}
+        {{ post.content|truncatewords:30 }}
+    {% else %}
+        No content available
+    {% endif %}
+
+{% else %}
+
+    Login to read this post...
+
+{% endif %}
+
+</p>
+
+
+
+
+
+
+
+<p class="author-name">
+
+<strong>Author:</strong>
+
+<a href="{% url 'profile' post.author.id %}">
+    {{ post.author.username }}
+</a>
+
+</p>
+
+
+
+
+
+
+
+{% if post.category %}
+
+
+<p>
+
+<strong>Category:</strong>
+
+{{ post.category.name }}
+
+</p>
+
+
+{% endif %}
+
+
+
+
+
+
+
+
+<!-- LIKE + COMMENT -->
+
+
+<div class="like-section">
+
+
+
+{% if user.is_authenticated %}
+
+
+
+<form method="POST" action="{% url 'like_post' post.id %}">
+
+
+{% csrf_token %}
+
+
+
+<button class="like-btn" type="submit">
+
+
+
+{% if user in post.likes.all %}
+
+
+❤️ Unlike
+
+
+{% else %}
+
+
+🤍 Like
+
+
+{% endif %}
+
+
+
+</button>
+
+
+
+</form>
+
+
+
+
+{% else %}
+
+
+
+<a href="{% url 'login' %}" class="like-btn">
+
+🤍 Like
+
+</a>
+
+
+
+{% endif %}
+
+
+
+
+
+
+
+<span class="like-count">
+
+{{ post.likes.count }} Likes
+
+</span>
+
+
+
+
+
+
+
+<a href="{% url 'post_detail' post.id %}" class="comment-btn">
+
+💬 Comment ({{ post.comments.count }})
+
+</a>
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+<!-- OWNER OPTIONS -->
+
+
+{% if request.user == post.author %}
+
+
+
+<div class="action-links">
+
+
+<a href="{% url 'update_post' post.id %}">
+
+Edit
+
+</a>
+
+
+|
+
+
+<a href="{% url 'delete_post' post.id %}" class="delete-link">
+
+Delete
+
+</a>
+
+
+</div>
+
+
+{% endif %}
+
+
+
+
+
+</div>
+
+
+
+{% empty %}
+
+
+
+<h3>
+
+No Blog Posts Found
+
+</h3>
+
+
+
+{% endfor %}
+
+
+
+
+
+
+
+
+<!-- PAGINATION -->
+
+
+<div class="pagination">
+
+
+
+{% if page_obj.has_previous %}
+
+
+<a href="?page=1&q={{ query }}">
+
+First
+
+</a>
+
+
+<a href="?page={{ page_obj.previous_page_number }}&q={{ query }}">
+
+Previous
+
+</a>
+
+
+
+{% endif %}
+
+
+
+
+
+
+<strong>
+
+Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+
+</strong>
+
+
+
+
+
+
+
+{% if page_obj.has_next %}
+
+
+
+<a href="?page={{ page_obj.next_page_number }}&q={{ query }}">
+
+Next
+
+</a>
+
+
+<a href="?page={{ page_obj.paginator.num_pages }}&q={{ query }}">
+
+Last
+
+</a>
+
+
+
+{% endif %}
+
+
+
+
+</div>
+
+
+
+
+
+{% endblock %}

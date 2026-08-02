@@ -1,0 +1,310 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<title>
+
+{% block title %}
+MyBlog
+{% endblock %}
+
+</title>
+
+
+<style>
+
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+
+body{
+
+    background:#f3f4f6;
+    font-family:Arial, sans-serif;
+
+}
+
+
+
+/* NAVBAR */
+
+
+.navbar{
+
+    background:white;
+    padding:15px 40px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    box-shadow:0 3px 15px rgba(0,0,0,0.1);
+
+}
+
+
+
+/* LEFT SIDE */
+
+
+.nav-left{
+
+    display:flex;
+    align-items:center;
+    gap:25px;
+
+}
+
+
+
+.nav-left a{
+
+    text-decoration:none;
+    color:#374151;
+    font-weight:600;
+
+}
+
+
+
+.nav-left a:hover{
+
+    color:#2563eb;
+
+}
+
+
+
+/* LOGO */
+
+
+.logo{
+
+    font-size:28px;
+    font-weight:800;
+    color:#2563eb;
+
+}
+
+
+
+/* RIGHT SIDE */
+
+
+.nav-right{
+
+    display:flex;
+    align-items:center;
+    gap:20px;
+
+}
+
+
+
+.nav-right a{
+
+    text-decoration:none;
+    font-weight:600;
+    color:#374151;
+
+}
+
+
+
+.login-btn{
+
+    background:#2563eb;
+    color:white !important;
+
+    padding:8px 18px;
+
+    border-radius:8px;
+
+}
+
+
+
+.logout-btn{
+
+    background:#dc2626;
+    color:white !important;
+
+    padding:8px 18px;
+
+    border-radius:8px;
+
+}
+
+
+
+
+.profile-btn{
+    background:#2563eb;
+    color:white !important;
+
+    padding:8px 18px;
+
+    border-radius:8px;
+
+}
+
+
+
+
+.container{
+
+    width:90%;
+    margin:auto;
+
+}
+
+
+</style>
+
+
+{% block css %}
+
+{% endblock %}
+
+
+</head>
+
+
+
+<body>
+
+
+
+<!-- NAVBAR -->
+
+
+<nav class="navbar">
+
+
+
+<!-- LEFT -->
+
+<div class="nav-left">
+
+{% if request.resolver_match.url_name != 'login' %}
+
+<a href="{% url 'home' %}"
+style="
+background:#2563eb;
+color:white !important;
+padding:8px 18px;
+border-radius:8px;
+text-decoration:none;
+font-weight:600;
+">
+Home
+</a>
+
+<a href="{% url 'create_post' %}"
+style="
+background:#2563eb;
+color:white !important;
+padding:8px 15px;
+border-radius:6px;
+text-decoration:none;
+font-weight:600;
+font-size:14px;
+">
+➕ Create Post
+</a>
+
+{% endif %}
+
+</div>
+
+
+
+
+
+<!-- CENTER LOGO -->
+
+
+<div class="logo">
+
+MyBlog
+
+</div>
+
+
+
+
+
+
+<!-- RIGHT -->
+
+
+<div class="nav-right">
+
+{% if request.resolver_match.url_name != 'login' %}
+
+    {% if user.is_authenticated %}
+
+        <a href="{% url 'profile' request.user.id %}" class="profile-btn">
+            Profile
+        </a>
+
+        <form method="POST" action="{% url 'logout' %}" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" class="logout-btn">
+                Logout
+            </button>
+        </form>
+
+    {% else %}
+
+        <a href="{% url 'login' %}" class="login-btn">
+            Login
+        </a>
+
+    {% endif %}
+
+{% endif %}
+
+</div>
+
+
+
+
+</nav>
+
+
+
+
+
+
+
+<div class="container">
+
+
+{% block content %}
+
+
+{% endblock %}
+
+
+</div>
+
+
+
+
+
+</body>
+
+
+</html>

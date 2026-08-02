@@ -1,0 +1,260 @@
+{% extends "blog_app/base.html" %}
+
+
+
+
+
+{% block title %}
+Edit Post | MyBlog
+{% endblock %}
+
+
+
+
+
+
+
+{% block css %}
+
+<style>
+
+
+/* ================= UPDATE POST ================= */
+
+
+.update-container {
+
+
+    max-width:700px;
+    margin:50px auto;
+    background:white;
+    padding:35px;
+    border-radius:12px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.08);
+
+
+}
+
+
+
+
+
+
+.update-container h2 {
+
+
+    text-align:center;
+    color:#2563eb;
+    font-size:32px;
+    margin-bottom:30px;
+
+
+}
+
+
+
+
+
+
+
+/* FORM */
+
+
+.update-container form p {
+
+
+    margin-bottom:20px;
+
+
+}
+
+
+
+
+.update-container label {
+
+
+    display:block;
+    font-weight:600;
+    color:#374151;
+    margin-bottom:8px;
+
+
+}
+
+
+
+
+
+.update-container input,
+.update-container textarea,
+.update-container select {
+
+
+    width:100%;
+    padding:12px;
+    border:1px solid #d1d5db;
+    border-radius:8px;
+    font-size:15px;
+    outline:none;
+    transition:0.3s;
+
+
+}
+
+
+
+
+.update-container input:focus,
+.update-container textarea:focus,
+.update-container select:focus {
+
+
+    border-color:#2563eb;
+    box-shadow:0 0 5px rgba(37,99,235,0.3);
+
+
+}
+
+
+
+
+
+.update-container textarea {
+
+
+    min-height:180px;
+    resize:vertical;
+
+
+}
+
+
+
+
+
+
+
+/* BUTTON */
+
+
+.update-btn {
+
+
+    width:100%;
+    padding:13px;
+    background:#2563eb;
+    color:white;
+    border:none;
+    border-radius:8px;
+    font-size:17px;
+    font-weight:600;
+    cursor:pointer;
+    transition:0.3s;
+
+
+}
+
+
+
+
+
+.update-btn:hover {
+
+
+    background:#1d4ed8;
+
+
+}
+
+
+
+
+</style>
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+{% block content %}
+
+
+
+
+
+
+<div class="update-container">
+
+
+
+
+
+
+    <h2>
+
+        Edit Blog Post
+
+    </h2>
+
+
+
+
+
+
+
+
+    <form method="POST" enctype="multipart/form-data">
+
+
+
+
+
+        {% csrf_token %}
+
+
+
+
+
+        {{ form.as_p }}
+
+
+
+
+
+
+        <button type="submit" class="update-btn">
+
+
+            Update
+
+
+        </button>
+
+
+
+
+
+
+
+    </form>
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+{% endblock %}

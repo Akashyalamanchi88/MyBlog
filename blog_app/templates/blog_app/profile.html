@@ -1,0 +1,433 @@
+{% extends "blog_app/base.html" %}
+
+
+{% block title %}
+{{ profile_user.username }} | MyBlog
+{% endblock %}
+
+
+
+
+
+{% block css %}
+
+<style>
+
+
+.profile-container {
+
+    max-width:900px;
+    margin:40px auto;
+
+}
+
+
+
+.profile-card {
+
+    background:white;
+    padding:35px;
+    border-radius:12px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.08);
+    margin-bottom:30px;
+
+}
+
+
+
+.profile-card h2 {
+
+    color:#2563eb;
+    font-size:32px;
+    margin-bottom:20px;
+
+}
+
+
+
+.profile-info {
+
+    background:#f3f4f6;
+    padding:20px;
+    border-radius:10px;
+
+}
+
+
+
+.profile-info p {
+
+    font-size:16px;
+    margin:10px 0;
+    color:#374151;
+
+}
+
+
+
+
+
+.posts-title {
+
+    color:#2563eb;
+    margin-bottom:25px;
+
+}
+
+
+
+
+
+.post-card {
+
+    background:white;
+    padding:25px;
+    border-radius:12px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.08);
+    margin-bottom:25px;
+
+}
+
+
+
+
+.post-card h4 a {
+
+    color:#2563eb;
+    font-size:22px;
+    text-decoration:none;
+
+}
+
+
+
+
+.post-image {
+
+    width:100%;
+    max-width:350px;
+    height:auto;
+    border-radius:10px;
+    margin:15px 0;
+
+}
+
+
+
+
+.post-description {
+
+    color:#4b5563;
+    line-height:1.6;
+
+}
+
+
+
+
+.btn {
+
+    display:inline-block;
+    padding:10px 20px;
+    border-radius:8px;
+    color:white;
+    text-decoration:none;
+    font-weight:600;
+    margin-right:10px;
+
+}
+
+
+
+.edit-btn {
+
+    background:#2563eb;
+
+}
+
+
+
+.delete-btn {
+
+    background:#dc2626;
+
+}
+
+
+
+
+.empty-message {
+
+    background:white;
+    padding:25px;
+    border-radius:10px;
+    text-align:center;
+    color:#6b7280;
+
+}
+
+
+
+</style>
+
+
+{% endblock %}
+
+
+
+
+
+
+
+{% block content %}
+
+
+
+<div class="profile-container">
+
+
+
+
+
+<!-- PROFILE INFORMATION -->
+
+
+<div class="profile-card">
+
+
+
+<h2>
+
+👤 {{ profile_user.username }}
+
+</h2>
+
+
+
+
+
+<div class="profile-info">
+
+
+
+<p>
+
+<strong>Username:</strong>
+
+{{ profile_user.username }}
+
+</p>
+
+
+
+
+
+
+<!-- SHOW EMAIL ONLY TO OWNER -->
+
+
+{% if request.user == profile_user %}
+
+{% if show_email %}
+
+<p>
+
+<strong>Email:</strong>
+
+{{ profile_user.email }}
+
+</p>
+
+{% endif %}
+
+
+<p>
+
+This is your profile
+
+</p>
+
+
+
+{% endif %}
+
+
+
+
+<p>
+
+<strong>Total Posts:</strong>
+
+{{ posts.count }}
+
+</p>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<h3 class="posts-title">
+
+
+{% if request.user == profile_user %}
+
+My Blog Posts
+
+{% else %}
+
+{{ profile_user.username }}'s Blog Posts
+
+{% endif %}
+
+
+</h3>
+
+
+
+
+
+
+
+
+
+{% for post in posts %}
+
+
+
+
+<div class="post-card">
+
+
+
+
+
+<h4>
+
+<a href="{% url 'post_detail' post.id %}">
+
+{{ post.title }}
+
+</a>
+
+
+</h4>
+
+
+
+
+
+
+
+{% if post.image %}
+
+
+<img src="{{ post.image.url }}" class="post-image">
+
+
+{% endif %}
+
+
+
+
+
+
+
+<p class="post-description">
+
+
+{{ post.content|truncatewords:20 }}
+
+
+</p>
+
+
+
+
+
+
+
+<!-- EDIT DELETE ONLY FOR OWNER -->
+
+
+{% if request.user == profile_user %}
+
+
+
+<a href="{% url 'update_post' post.id %}" class="btn edit-btn">
+
+Edit
+
+</a>
+
+
+
+
+<a href="{% url 'delete_post' post.id %}" class="btn delete-btn">
+
+Delete
+
+</a>
+
+
+
+{% endif %}
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+{% empty %}
+
+
+
+
+<div class="empty-message">
+
+
+<p>
+
+No blog posts available.
+
+</p>
+
+
+</div>
+
+
+
+
+{% endfor %}
+
+
+
+
+
+
+
+</div>
+
+
+
+
+{% endblock %}
