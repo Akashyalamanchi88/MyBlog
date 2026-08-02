@@ -43,8 +43,18 @@ INSTALLED_APPS = [
 
     'blog_app',
     'django_ckeditor_5',
+    'cloudinary',
+    'cloudinary_storage',
 ]
 
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'your_cloud_name',
+    'API_KEY': 'your_api_key',
+    'API_SECRET': 'your_api_secret',
+}
 
 # Middleware
 
