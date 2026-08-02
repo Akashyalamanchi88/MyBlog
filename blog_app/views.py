@@ -75,20 +75,30 @@ def post_detail(request, id):
         },
     )
 
-@login_required
 def create_post(request):
+
     if request.method == "POST":
-        form = PostForm(request.POST, request.FILES)
+
+        form = PostForm(
+            request.POST,
+            request.FILES
+        )
+
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
             post.save()
-            return redirect('home')
+
+            return redirect("home")
+
     else:
         form = PostForm()
 
-    return render(request, 'blog_app/create_post.html', {'form': form})
-
+    return render(
+        request,
+        "blog_app/create_post.html",
+        {"form": form}
+    )
 @login_required
 def update_post(request, id):
     post = get_object_or_404(Post, id=id)
